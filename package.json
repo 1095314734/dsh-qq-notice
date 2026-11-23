@@ -1,0 +1,57 @@
+{
+  "name": "dsh-qq-notice",
+  "version": "0.1.0",
+  "description": "Push DSH approval requests, pending choices and turn completions to a QQ bot, with an hourly e-mail digest for undelivered notifications.",
+  "type": "module",
+  "main": "./lib/index.js",
+  "files": [
+    "cordis.patch.yml",
+    "lib",
+    "README.md"
+  ],
+  "exports": {
+    ".": {
+      "import": "./lib/index.js"
+    },
+    "./client": {
+      "default": "./lib/client.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "engines": {
+    "dsh": ">=0.2.2-rc.5 <0.3.0-0",
+    "node": ">=24.9.0"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web"
+    }
+  },
+  "scripts": {
+    "test": "node --test \"test/*.test.mjs\"",
+    "prepublishOnly": "node --test \"test/*.test.mjs\""
+  },
+  "dependencies": {
+    "@tencent-connect/qqbot-nodejs": "^1.0.5"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/schemastery": ">=3.19.0"
+  },
+  "keywords": [
+    "dsh",
+    "deepseek-harness",
+    "plugin",
+    "qq",
+    "qqbot",
+    "notification",
+    "notify"
+  ],
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
+}

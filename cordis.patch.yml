@@ -1,0 +1,46 @@
+# dsh-qq-notice 的默认层：把插件插进宿主，并给出可直接用的默认值。
+#
+# 凭据与收件人默认留空 = 复用 im-qqbot 的 appId/appSecret 与其私聊白名单，
+# 因此装好即可工作；要独立身份或独立收件人时再填。
+- insert:
+    - id: qq-notify
+      name: dsh-qq-notice
+      config:
+        enabled: true
+        # 例：["c2c:0A1B2C...", "group:7F8E9D..."]
+        targets: []
+        events:
+          approval: true
+          choice: true
+          completion: true
+        # 审批通知里命令原文的最大长度（不脱敏，按你的要求）
+        commandClip: 800
+        # 你点过允许/拒绝之后，这段时间内不再推审批通知（其余计数合并到下一封）
+        approvalIntervalMs: 20000
+        # 审批推送后超过这么久还没人处理，再补一条提醒；0 = 不提醒
+        approvalReminderMs: 60000
+        # 完成通知里"最后输出"的最大长度
+        lastOutputChars: 150
+        # 同一会话连续 turn 的合并窗口
+        mergeWindowMs: 8000
+        # 每个收件人每分钟最多几条（超出直接丢弃并计入漏发汇总）
+        perTargetPerMinute: 10
+        # 静音：按 cwd 的 glob 匹配，例如 ["D:/work/scratch-*"]
+        mutedCwds: []
+        # 额外跳过：例如 QQ 机器人自己的工作目录
+        skipCwds: []
+        digest:
+          enabled: true
+          intervalMinutes: 60
+          # 留空 = ~/.dsh-qq-notice
+          dir: ""
+          smtp:
+            host: ""
+            port: 465
+            secure: true
+            user: ""
+            # ctx.credentials 里的引用名；password 留空时才用它
+            passwordRef: SMTP_PASSWORD
+            # 也可直接在这里填授权码（会被标记为 secret，设置页不回显）
+            password: ""
+            from: ""
