@@ -30,6 +30,18 @@ $ pnpm install --frozen-lockfile
 - **邮件只做补发**：QQ 发不出去就立刻用邮件补一条，同一窗口内的多条合并成一封；补发也失败才进队列按小时重试。
 - **审批间隔按你的作答计时**：你点完「允许/拒绝」才开始算，超时没处理再补一条提醒。
 
+## 前置条件
+
+本插件不自带 QQ 机器人身份，**先安装并配置好 [`@tencent-connect/dsh-qqbot`](https://www.npmjs.com/package/@tencent-connect/dsh-qqbot)**（profile 里的 `im-qqbot`），再装本插件：
+
+```powershell
+dsh plugin --profile web add @tencent-connect/dsh-qqbot
+```
+
+- 本插件默认复用它的 `appId` / `appSecret` 和私聊白名单。没装它、或它的凭据没配好，就没有发送身份和收件人，通知只会落到漏发队列。
+- 要独立身份或独立收件人时，才需要在下面「配置」里自己填 `appId` / `appSecret` / `targets`。
+- **邮件补发是可选的**：不配置 SMTP 也能正常用，只是 QQ 发送失败的消息不会补发，只进本地队列。
+
 ## 网页版安装
 
 ```powershell
@@ -50,7 +62,7 @@ dsh plugin --profile desktop add dsh-qq-notice
 
 两处都能改，改完立即生效（volatile 字段，不需要重载）：
 
-- **DSH 设置页**：设置 → 插件 → `qq-notify`（按 profile entry id 显示）
+- **DSH 设置页**：设置 → 插件 → `QQ通知`
 - **profile 的 `cordis.patch.yml`**：`- id: qq-notify` 那条的 `config`
 
 默认值见 [cordis.patch.yml](./cordis.patch.yml)。**装好即用**：`targets` 留空时自动取 `im-qqbot` 私聊白名单，凭据也直接复用，不需要配第二遍。
@@ -78,7 +90,7 @@ dsh plugin --profile desktop add dsh-qq-notice
 
 ## 邮件补发
 
-QQ 发不出去时**立刻**用邮件补一条，不等整点。**只发给自己**：收件人固定是 SMTP 登录账号本身，没有抄送、没有多收件人（少一个能填错的字段）。
+这是**可选**的兜底通道：想用就得先配置 SMTP（主机、端口、账号、密码），不配则跳过本节。QQ 发不出去时**立刻**用邮件补一条，不等整点。**只发给自己**：收件人固定是 SMTP 登录账号本身，没有抄送、没有多收件人（少一个能填错的字段）。
 
 1. 密码存进 DSH 凭据，不要写进配置（`cordis.patch.yml` 是明文落盘的）。凭据文件是
    `~/.dsh/.credentials.yaml`，在 `refs:` 下加一行即可（ref 名与配置里的
