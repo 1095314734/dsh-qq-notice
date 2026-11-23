@@ -30,7 +30,13 @@
         # 额外跳过：例如 QQ 机器人自己的工作目录
         skipCwds: []
         digest:
+          # 邮件通道总开关：关掉后 QQ 失败的记录只进本地队列
           enabled: true
+          # QQ 发送失败立刻用邮件补发（关掉则退回「只做周期汇总」）
+          immediate: true
+          # 立即补发的合并窗口：窗口内多条失败合成一封；0 = 逐条立即发
+          coalesceMs: 3000
+          # 补发邮件也失败时，多久把队列汇总重试一次（分钟）
           intervalMinutes: 60
           # 留空 = ~/.dsh-qq-notice
           dir: ""

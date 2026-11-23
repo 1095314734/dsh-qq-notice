@@ -36,6 +36,8 @@ test('normalize 给空配置补齐全部默认值', () => {
   assert.equal(settings.perTargetPerMinute, 10);
   assert.equal(settings.events.approval, true);
   assert.equal(settings.digest.enabled, true);
+  assert.equal(settings.digest.immediate, true, 'QQ 失败默认立即邮件补发');
+  assert.equal(settings.digest.coalesceMs, 3000);
   assert.equal(settings.digest.intervalMinutes, 60);
   assert.equal(settings.digest.smtp.port, 465);
   assert.equal(settings.digest.smtp.passwordRef, 'SMTP_PASSWORD');
