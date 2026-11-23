@@ -1,6 +1,6 @@
 # dsh-qq-notice
 
-把 DSH 的三类时机推到 QQ：**等授权**、**等你选**、**跑完了**。发不出去的落本地队列，每小时汇总成一封邮件。
+把 DSH 的三类时机推到 QQ：**等授权**、**等你选**、**跑完了**。QQ机器人发送失败时会用邮件补一条。
 
 ```
 🔐 需要授权 · my-project · 3f2a91
@@ -30,10 +30,16 @@ $ pnpm install --frozen-lockfile
 - **邮件只做补发**：QQ 发不出去就立刻用邮件补一条，同一窗口内的多条合并成一封；补发也失败才进队列按小时重试。
 - **审批间隔按你的作答计时**：你点完「允许/拒绝」才开始算，超时没处理再补一条提醒。
 
-## 安装
+## 网页版安装
 
 ```powershell
 dsh plugin --profile web add dsh-qq-notice
+```
+
+## 桌面版安装
+
+```powershell
+dsh plugin --profile desktop add dsh-qq-notice
 ```
 
 在 DSH 里也可以用 `plugin_manager` 的 `install_bundle`，`target` 填包名或本地目录。
