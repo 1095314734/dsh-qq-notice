@@ -27,12 +27,12 @@ $ pnpm install --frozen-lockfile
 - **只旁听，不接管**：审批与提问都是 waterfall，本插件看一眼就 `next()` 交回宿主。QQ 里只能看，不能点。
 - **零 LLM**：文案全是模板拼装，不调用模型、不产生 token。
 - **只走 HTTP，不连 gateway**：不复用 `im-qqbot` 的 WebSocket，只借它的 appId/appSecret 发消息，因此也收不到 QQ 消息。
-- **邮件只做补发**：QQ 发不出去就立刻用邮件补一条，同一窗口内的多条合并成一封；补发也失败才进队列按小时重试。
+- **邮件只做补发**：QQ 发不出去就立刻用邮件补一条。
 - **审批间隔按你的作答计时**：你点完「允许/拒绝」才开始算，超时没处理再补一条提醒。
 
 ## 前置条件
 
-本插件不自带 QQ 机器人身份，**先安装并配置好 [`@tencent-connect/dsh-qqbot`](https://www.npmjs.com/package/@tencent-connect/dsh-qqbot)**（profile 里的 `im-qqbot`），再装本插件：
+本插件不自带 QQ 机器人身份，**先安装并配置好 [`@tencent-connect/dsh-qqbot`](https://www.npmjs.com/package/@tencent-connect/dsh-qqbot)**，再装本插件：
 
 ```powershell
 dsh plugin --profile web add @tencent-connect/dsh-qqbot
@@ -40,7 +40,7 @@ dsh plugin --profile web add @tencent-connect/dsh-qqbot
 
 - 本插件默认复用它的 `appId` / `appSecret` 和私聊白名单。没装它、或它的凭据没配好，就没有发送身份和收件人，通知只会落到漏发队列。
 - 要独立身份或独立收件人时，才需要在下面「配置」里自己填 `appId` / `appSecret` / `targets`。
-- **邮件补发是可选的**：不配置 SMTP 也能正常用，只是 QQ 发送失败的消息不会补发，只进本地队列。
+- **邮件补发是可选的**：不配置 SMTP 也能QQ消息正常用，只是 QQ 发送失败的消息不会补发，只进本地队列。
 
 ## 网页版安装
 
